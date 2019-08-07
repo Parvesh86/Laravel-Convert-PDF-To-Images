@@ -38,7 +38,28 @@ class MainController extends Controller
             $ImagesFromPdf->save();
         }
     endif;
-       echo 'Saved';
+       return redirect()->route('welcome');
+
+    }
+
+    public function MurgeMuliple(){
+        $Images=[];
+        $merge;
+        $UploadedData = UploadPdf::where('status',1)->with('images')->first();
+        $Images = $UploadedData->images; 
+        // return $Images[0]->ImageName; 
+        for ($i=1; $i <count($Images) ; $i++) { 
+            if($i==1){
+                $uid = uniqid();
+                $this->merge($Images[$i-1]->ImageName,$Images[$i]->ImageName , public_path('images/convertImages/'.$uid.'.jpg'),1);
+                $merge = 'images/convertImages/'.$uid.'.jpg';
+            }else{
+                $uid = uniqid();
+                $this->merge($merge,$Images[$i]->ImageName , public_path('images/convertImages/'.$uid.'.jpg'),1);
+                $merge = 'images/convertImages/'.$uid.'.jpg'; 
+            }
+        }
+        die; 
 
     }
 
