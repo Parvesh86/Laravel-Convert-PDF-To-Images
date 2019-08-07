@@ -16,6 +16,7 @@ class CreateUploadPdfsTable extends Migration
         Schema::create('upload_pdfs', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('PdfName');
+            $table->string('SingleImageName')->default(Null);
             $table->tinyInteger('status');
             $table->timestamps();
         });
